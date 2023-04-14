@@ -78,7 +78,7 @@
                                 <th scope="col">id</th>
                                 <th scope="col">name</th>
                                 <th scope="col">email</th>
-                                <th scope="col"></th>
+                                <th scope="col">action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,7 +86,11 @@
                                 <td>{{ row.id }}</td>
                                 <td>{{ row.name }}</td>
                                 <td>{{ row.email }}</td>
-                                <td></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" @click="deleteData(row.id)">
+                                        削除
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

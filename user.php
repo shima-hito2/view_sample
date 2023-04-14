@@ -1,5 +1,6 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "root", "cloudhome");
+require_once('./database.php');
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
 
 if ($conn) {
 } else {

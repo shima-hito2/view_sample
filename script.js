@@ -13,24 +13,41 @@ var application = new Vue({
       // do 
       axios.post('user.php', {
 
-      }).then(function (response) {
+      }).then(function (res) {
         //allDataにphpファイルSELECTの結果が配列で格納される
-        application.allData = response.data;
+        application.allData = res.data;
       });
     },
     insertData: function () {
       axios.post('insert.php', {
         name: this.name,
         email: this.email
-      }).then(function (response) {
-        console.log(response.data.message);
-        if (response.data.message == "success") {
+      }).then(function (res) {
+        console.log(res.data.message);
+        if (res.data.message == "success") {
           alert("登録しました");
           application.fetchAllData();
           application.name = "";
           application.email = "";
+          application.insertModal = false;
         } else {
-          alert(response.data.message);
+          alert(res.data.message);
+        }
+      });
+    },
+    deleteData: function (id) {
+      axios.post('delete.php', {
+        id: id
+      }).then(function (res) {
+        console.log(res.data.message);
+        if (res.data.message == "success") {
+          alert("削除しました");
+          application.fetchAllData();
+          application.name = "";
+          application.email = "";
+          application.insertModal = false;
+        } else {
+          alert(res.data.message);
         }
       });
     },

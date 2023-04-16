@@ -1,2 +1,9 @@
 .modal{display: block;}
 .insert-error{display: none;}
+
+#vueLogin{
+  margin: 20% auto;
+}
+input{
+  width: 85%;
+}

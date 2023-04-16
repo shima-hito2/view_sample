@@ -4,29 +4,55 @@ var application = new Vue({
   //dataは　vueの中で使われる変数
   data: {
     insertModal: false,
+    loginModal: false,
     allData:'',
+    sessionId:'',
     name:'',
     email:'',
+    password:'',
   },
   methods: {
-    fetchAllData: function () {
+    // 初回レンダリング時のセッション情報チェック
+    sessionCheck: function () {
       // do 
-      axios.post('user.php', {
+      axios.post('./php/sessionCheck.php', {
 
       }).then(function (res) {
-        //allDataにphpファイルSELECTの結果が配列で格納される
-        application.allData = res.data;
+        console.log(res.data['message']);
+        if(!res.data['id']){
+          alert('ログイン情報がありません。ログインして下さい。');
+          application.loginModal = true;
+        }
+      });
+    },
+    // ログインチェック
+    loginCheck: function () {
+      // do 
+      axios.post('./php/login.php', {
+        name: this.name,
+        password: this.password
+      }).then(function (res) {
+        console.log(res.data.message);
+        if (res.data.message == "success") {
+          alert("ログインしました");
+          application.loginCheck();
+          application.name = "";
+          application.email = "";
+          application.insertModal = false;
+        } else {
+          alert(res.data.message);
+        }
       });
     },
     insertData: function () {
-      axios.post('insert.php', {
+      axios.post('./php/insertUser.php', {
         name: this.name,
-        email: this.email
+        password: this.password
       }).then(function (res) {
         console.log(res.data.message);
         if (res.data.message == "success") {
           alert("登録しました");
-          application.fetchAllData();
+          // application.loginCheck();
           application.name = "";
           application.email = "";
           application.insertModal = false;
@@ -36,13 +62,13 @@ var application = new Vue({
       });
     },
     deleteData: function (id) {
-      axios.post('delete.php', {
+      axios.post('./php/delete.php', {
         id: id
       }).then(function (res) {
         console.log(res.data.message);
         if (res.data.message == "success") {
           alert("削除しました");
-          application.fetchAllData();
+          application.loginCheck();
           application.name = "";
           application.email = "";
           application.insertModal = false;
@@ -54,6 +80,6 @@ var application = new Vue({
   },
 
   created: function () {
-    this.fetchAllData();
+    this.sessionCheck();
   }
 });

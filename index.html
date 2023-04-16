@@ -14,20 +14,20 @@
     <body>
         <div class="container" id="vueApp">
             <h1>Vue.jsを使ったAJAX通信</h1>
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" @click="insertModal = true">
-            登録
+                新規登録
             </button>
-            <!-- Modal -->
-            <!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+            <button type="button" class="btn btn-primary" @click="loginModal = true">
+                ログイン
+            </button>
+            <!-- ーーーーーーーーーーー新規登録用モーダルーーーーーーーーーーーーーーーーーー -->
             <div v-if="insertModal">
-                <!--<div class="modal fade" id="exampleModal" tabindex="-1">-->
                 <div class="modal" id="exampleModal" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">登録フォーム</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="insertModal = false"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="insertModal = false;name = '';password = '';"></button>
                             </div>
                             <div class="modal-body">
                                 <form
@@ -51,22 +51,73 @@
                                         >
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">email</label>
+                                        <label for="exampleFormControlInput1" class="form-label">password</label>
                                         <input
-                                            type="text"
-                                            name="email"
-                                            id="email"
+                                            type="password"
+                                            name="password"
+                                            id="password"
                                             class="form-control"
-                                            placeholder="emailを入力してください"
-                                            v-model="email"
+                                            placeholder="パスワードを入力してください"
+                                            v-model="password"
                                         >
                                     </div>
                                     <div class="mb-3">
-                                        <button type="button" name="submit" class="btn btn-primary" @click="insertData">登録する</button></div>
+                                        <button type="button" name="submit" class="btn btn-primary" @click="insertData">登録</button></div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-close" @click="insertModal = false">閉じる</button></div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-close" @click="insertModal = false;name = '';password = '';">閉じる</button></div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!-- ーーーーーーーーーーーーーログイン用モーダルーーーーーーーーーーーーーーーーーー -->
+            <div v-if="loginModal">
+                <div class="modal" id="exampleModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">ログインフォーム</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="loginModal = false;name = '';password = '';"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form
+                                    action="#"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                                    autocomplete="off"
+                                >
+                                    <div class="alert alert-dismissible alert-danger insert-error">
+                                        登録内容に問題があります
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            class="form-control"
+                                            placeholder="名前を入力してください"
+                                            v-model="name"
+                                        >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            class="form-control"
+                                            placeholder="パスワードを入力してください"
+                                            v-model="password"
+                                        >
+                                    </div>
+                                    <div class="mb-3">
+                                        <button type="button" name="submit" class="btn btn-primary" @click="loginCheck">ログイン</button></div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-close" @click="loginModal = false;name = '';password = '';">閉じる</button></div>
                         </div>
                     </div>
                 </div>

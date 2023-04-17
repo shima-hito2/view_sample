@@ -20,6 +20,10 @@
             <button type="button" class="btn btn-primary" @click="loginModal = true">
                 ログイン
             </button>
+            <button type="button" class="btn btn-primary" @click="logOut">
+                ログアウト
+            </button>
+            <div>ログインユーザー：{{loginName}}</div>
             <!-- ーーーーーーーーーーー新規登録用モーダルーーーーーーーーーーーーーーーーーー -->
             <div v-if="insertModal">
                 <div class="modal" id="exampleModal" tabindex="-1">

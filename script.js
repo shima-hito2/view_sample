@@ -4,24 +4,24 @@ var application = new Vue({
   //dataは　vueの中で使われる変数
   data: {
     insertModal: false,
-    loginModal: false,
-    allData:'',
-    sessionId:'',
-    name:'',
-    email:'',
-    password:'',
+    loginModal: true,
+    allData: '',
+    sessionId: '',
+    name: '',
+    email: '',
+    password: '',
+    loginName: '',
   },
   methods: {
     // 初回レンダリング時のセッション情報チェック
     sessionCheck: function () {
-      // do 
-      axios.post('./php/sessionCheck.php', {
-
+      axios.post('', {
       }).then(function (res) {
-        console.log(res.data['message']);
-        if(!res.data['id']){
+        if (window.sessionStorage.getItem(['loginName']) == null) {
           alert('ログイン情報がありません。ログインして下さい。');
-          application.loginModal = true;
+        }else{
+          application.loginName = window.sessionStorage.getItem(['loginName']);
+          application.loginModal = false;
         }
       });
     },
@@ -35,10 +35,12 @@ var application = new Vue({
         console.log(res.data.message);
         if (res.data.message == "success") {
           alert("ログインしました");
-          application.loginCheck();
+          // application.sessionCheck();
           application.name = "";
-          application.email = "";
-          application.insertModal = false;
+          application.password = "";
+          application.loginModal = false;
+          window.sessionStorage.setItem(['loginName'], [res.data.login_name]);
+          application.loginName = res.data.login_name;
         } else {
           alert(res.data.message);
         }
@@ -54,7 +56,7 @@ var application = new Vue({
           alert("登録しました");
           // application.loginCheck();
           application.name = "";
-          application.email = "";
+          application.password = "";
           application.insertModal = false;
         } else {
           alert(res.data.message);
@@ -76,6 +78,13 @@ var application = new Vue({
           alert(res.data.message);
         }
       });
+    },
+    logOut: function () {
+      application.loginName = '';
+      console.log(window.sessionStorage.getItem(['loginName']))
+      window.sessionStorage.clear();
+      console.log(window.sessionStorage.getItem(['loginName']))
+      alert('ログアウト');
     },
   },
 

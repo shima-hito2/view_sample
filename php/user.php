@@ -9,7 +9,6 @@ if ($mysqli->connect_errno) {
 
 $result = $mysqli->query("SELECT * FROM `users` ORDER BY id DESC",MYSQLI_USE_RESULT);
 
-print_r($result);
 if (!$result) {
   $message = "レコードが有りません";
 }else{

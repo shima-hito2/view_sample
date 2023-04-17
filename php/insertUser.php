@@ -1,33 +1,31 @@
 <?php
-require_once('database.php');
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
 
-if ($conn) {
-} else {
-  $message = "データベースに接続できません";
-}
+require_once('queryUser.php');
 
 $received_data = json_decode(file_get_contents("php://input"));
 $name = $received_data->name;
-$password = password_hash($received_data->password, PASSWORD_DEFAULT);
+$password = $received_data->password;
 
 if (!empty($name) && !empty($password)) {
-  $result_user = mysqli_query($conn, "SELECT * FROM `users` WHERE name = '$name'");
-  if (mysqli_num_rows($result_user) !== 0) {
+
+  $password = password_hash($password, PASSWORD_DEFAULT);
+  $result_user = select_by_name($name);
+
+  if (count($result_user) !== 0) {
     $message = "このユーザー名は既に登録されています。";
   } else {
-    $result_insert = mysqli_query($conn, "INSERT INTO `users` ( `name`, `password` ) VALUES ('$name', '$password')");
-    if ($result) {
+    $result_insert = insert_new($name, $password);
+    if ($result_insert) {
       $message = "success";
     } else {
-      $message = mysqli_error($conn);
+      $message = "問題が発生しました。";
     }
   }
 } else {
   $message = "未記入の項目があります";
 }
 
-$output = array(
+$data = array(
   'message' => $message
 );
-echo json_encode($output);
+echo json_encode($data);
